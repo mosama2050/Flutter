@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "434841952744",
+    "firebase_url": "https://royal-79123.firebaseio.com",
+    "project_id": "royal-79123",
+    "storage_bucket": "royal-79123.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:434841952744:android:e781b964a7e6899955c45d",
+        "android_client_info": {
+          "package_name": "com.example.royalfinal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "434841952744-lp5s6euhnlhjem3ab8igam23l4ajbpj6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDBmdPY93M_q5XQt6NTvcZDLOaZTQSVlU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "434841952744-lp5s6euhnlhjem3ab8igam23l4ajbpj6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:434841952744:android:ec253f479f521ee455c45d",
+        "android_client_info": {
+          "package_name": "com.exampleroyal.royal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "434841952744-lp5s6euhnlhjem3ab8igam23l4ajbpj6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDBmdPY93M_q5XQt6NTvcZDLOaZTQSVlU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "434841952744-lp5s6euhnlhjem3ab8igam23l4ajbpj6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
