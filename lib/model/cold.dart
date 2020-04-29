@@ -5,48 +5,48 @@ class coldList {
     return [
       Movie(
           title: 'لمون بالنعناع ',
-          genre: 'مرر لليسار ان اعجبك',
-          year: '20\$',
+          genre: 'اسحب لليسار ',
+          year: '20',
           imageUrl:
           'img/cold.jpg'), Movie(
           title: 'لمون بالنعناع ',
-          genre: 'مرر لليسار ان اعجبك',
-          year: '20\$',
+          genre: 'اسحب لليسار ',
+          year: '20',
           imageUrl:
           'img/cold.jpg'), Movie(
           title: 'لمون بالنعناع ',
-          genre: 'مرر لليسار ان اعجبك',
-          year: '20\$',
+          genre: 'اسحب لليسار ',
+          year: '20',
           imageUrl:
           'img/cold.jpg'), Movie(
           title: 'لمون بالنعناع ',
-          genre: 'مرر لليسار ان اعجبك',
-          year: '20\$',
+          genre: 'اسحب لليسار ',
+          year: '20',
           imageUrl:
           'img/cold.jpg'), Movie(
           title: 'لمون بالنعناع ',
-          genre: 'مرر لليسار ان اعجبك',
-          year: '20\$',
+          genre: 'اسحب لليسار ',
+          year: '20',
           imageUrl:
           'img/cold.jpg'), Movie(
           title: 'لمون بالنعناع ',
-          genre: 'مرر لليسار ان اعجبك',
-          year: '20\$',
+          genre: 'اسحب لليسار ',
+          year: '20',
           imageUrl:
           'img/cold.jpg'), Movie(
           title: 'لمون بالنعناع ',
-          genre: 'مرر لليسار ان اعجبك',
-          year: '20\$',
+          genre: 'اسحب لليسار ',
+          year: '20',
           imageUrl:
           'img/cold.jpg'), Movie(
           title: 'لمون بالنعناع ',
-          genre: 'مرر لليسار ان اعجبك',
-          year: '20\$',
+          genre: 'اسحب لليسار ',
+          year: '20',
           imageUrl:
           'img/cold.jpg'), Movie(
           title: 'لمون بالنعناع ',
-          genre: 'مرر لليسار ان اعجبك',
-          year: '20\$',
+          genre: 'اسحب لليسار ',
+          year: '20',
           imageUrl:
           'img/cold.jpg'),
     ];

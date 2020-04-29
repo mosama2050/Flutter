@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:royal/screens/BeautyTextfield.dart';
 import 'package:royal/screens/home.dart';
 import 'package:royal/screens/signup.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:provider/provider.dart';
 import 'package:royal/services/auth.dart';
 
 class login extends StatefulWidget {
@@ -17,6 +14,8 @@ class loginsate extends State<login> {
   final AuthServices _auth = AuthServices();
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   static final formKey = new GlobalKey<FormState>();
+  String email = "";
+  String password = "";
 
   Widget hintText() {
     return new Container(
@@ -34,14 +33,18 @@ class loginsate extends State<login> {
       width: double.maxFinite,
       height: 60,
       duration: Duration(milliseconds: 300),
-      inputType: TextInputType.text,
+      inputType: TextInputType.emailAddress,
       prefixIcon: Icon(Icons.person),
       placeholder: "Enter Your Email",
       onTap: () {
         print('Click');
       },
       onChanged: (text) {
-        text.isEmpty ? 'Email can\'t be empty.' : null;
+        setState(() {
+
+          email = text;
+          email.trim();
+        });
       },
       onSubmitted: (data) {
         print(data.length);
@@ -55,15 +58,18 @@ class loginsate extends State<login> {
       inputType: TextInputType.text,
       prefixIcon: Icon(Icons.lock_outline),
       placeholder: "Enter Your Password",
+
       onTap: () {
         print('Click');
       },
       onChanged: (text) {
-        text.isEmpty ? 'pass can\'t be empty.' : null;
+        setState(() {
+          password = text;
+          password.trim();
+        });
       },
       onSubmitted: (data) {
         print(data.length);
-        //     _password = data;
       },
     );
     final loginButon = Material(
@@ -74,20 +80,29 @@ class loginsate extends State<login> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () async {
-      dynamic r=    await _auth.loginUser();
-      if(r==null){
-        print("error Siging in");
-      //  _buildErrorDialog(context, r.toString());
-      }else {
-        print("Signed in");
+          print(email + password);
+          if (email.isEmpty || password.length < 6) {
+            print("embty");
+            _buildErrorDialog(context, "Email or password not vaild");
+          }
+          else {
+            if (formKey.currentState.validate()) {
+              dynamic r = await _auth.signinwithemail(email, password);
+             if(r==null) {
+               setState(() {
+                 _buildErrorDialog(context, " please try again");
+               });
+             }else{Navigator.pushReplacement(
+               context,
+               MaterialPageRoute(builder: (context) => DashBoard()),
+             );}
 
-        print(r);
-      }
+            } else {
+              _buildErrorDialog(context, " Try agian");
+            }
+          }
         }
-//          Navigator.pushReplacement(
-//            context,
-//            MaterialPageRoute(builder: (context) => DashBoard()),
-//          );
+
         ,
         child: Text("Login",
             textAlign: TextAlign.center,
@@ -104,11 +119,10 @@ class loginsate extends State<login> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-//          Navigator.pushReplacement(
-//            context,
-//            MaterialPageRoute(builder: (context) => signup()),
-//          );
-
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => signup()),
+          );
         },
         child: Text("Sign Up",
             textAlign: TextAlign.center,
@@ -193,11 +207,15 @@ class loginsate extends State<login> {
       ),
     );
   }
+
   Future _buildErrorDialog(BuildContext context, _message) {
     return showDialog(
       builder: (context) {
         return AlertDialog(
-          title: Text('Error Message'),
+          title: Text(
+            'Error Message',
+            style: TextStyle(color: Colors.red),
+          ),
           content: Text(_message),
           actions: <Widget>[
             FlatButton(

@@ -3,12 +3,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import 'package:royal/screens/ShapesPainter.dart';
+
+import 'package:royal/screens/aboutus/pageview.dart';
 import 'package:royal/screens/home.dart';
+import 'package:royal/screens/location/location.dart';
 import 'package:royal/screens/profile/profile.dart';
 import 'package:royal/screens/table/table.dart';
+import 'package:royal/services/auth.dart';
 
 class drower extends StatelessWidget {
+  final AuthServices _authServices = AuthServices();
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -62,11 +67,13 @@ class drower extends StatelessWidget {
           ),
           ListTile(
             title: Text('How to use'),
-            onTap: () {Scaffold.of(context).showSnackBar(
-              SnackBar(content: Text("حجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبها ")
-              ,duration: Duration (seconds:20),
-
-              ));
+             onTap: () {
+//              Scaffold.of(context).showSnackBar(
+//              SnackBar(content: Text("حجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبهاحجات كتير نوعمه كتبها ")
+//              ,duration: Duration (seconds:20),
+//
+//              ));
+               _buildErrorDialog(context, "مش عارف اي لزمتها \n مش عارف اي لزمتها\nمش عارف اي لزمتها \n مش عارف اي لزمتها\nمش عارف اي لزمتها \n مش عارف اي لزمتها\nمش عارف اي لزمتها \n مش عارف اي لزمتها");
             },
             trailing: Icon(Icons.help_outline),
           ),
@@ -99,13 +106,10 @@ class drower extends StatelessWidget {
           ), ListTile(
             title: Text('About Us'),
             onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-//              {Navigator.push(
-//                context,
-//                MaterialPageRoute(builder: (context) => login()),
-//              );}
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PageViewPage()),
+              );
             },
             trailing: Icon(Icons.people),
           ),Divider(
@@ -114,13 +118,11 @@ class drower extends StatelessWidget {
           ), ListTile(
             title: Text('Location'),
             onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-//              {Navigator.push(
-//                context,
-//                MaterialPageRoute(builder: (context) => login()),
-//              );}
+
+              {Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => location()),
+              );}
             },
             trailing: Icon(Icons.location_on),
           ),Divider(
@@ -128,19 +130,34 @@ class drower extends StatelessWidget {
             height: 4,
           ), ListTile(
             title: Text('Log out'),
-            onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-//              {Navigator.push(
-//                context,
-//                MaterialPageRoute(builder: (context) => login()),
-//              );}
+            onTap: () async{
+               await _authServices.logut();
             },
             trailing: Icon(Icons.exit_to_app),
           ),
         ],
       ),
+    );
+  }
+  Future _buildErrorDialog(BuildContext context, _message) {
+    return showDialog(
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            'Help Message',
+            style: TextStyle(color: Colors.blue),
+          ),
+          content: Text(_message ,textAlign: TextAlign.right,),
+          actions: <Widget>[
+            FlatButton(
+                child: Text('close'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                })
+          ],
+        );
+      },
+      context: context,
     );
   }
 }

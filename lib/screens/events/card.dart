@@ -54,7 +54,7 @@ class cardstate extends State<card> {
       cardlist.removeLast();
     });
   }
-
+int len = 10;
   @override
   Widget build(BuildContext context) {
    // cardlist.clear();

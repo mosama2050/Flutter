@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:royal/screens/Meune/MatList.dart';
-import 'package:royal/screens/Meune/materialCard.dart';
+
 import 'package:royal/screens/ShapesPainter.dart';
 
 import 'package:royal/screens/aboutus/pageview.dart';
@@ -14,9 +14,7 @@ import 'package:royal/screens/location/location.dart';
 import 'package:royal/screens/rate/rate.dart';
 import 'package:royal/screens/table/table.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:provider/provider.dart';
 class DashBoard extends StatelessWidget {
 
   //final FirebaseUser currentUser;
@@ -45,12 +43,14 @@ class DashBoard extends StatelessWidget {
         drawer: drower(),
         body:CustomScrollView(slivers: <Widget>[
           SliverAppBar(
+            automaticallyImplyLeading: true,
             expandedHeight: 200,
             backgroundColor: Colors.black45,
             floating: true,
             pinned: true,
+
             flexibleSpace: FlexibleSpaceBar(
-              title: Text("Home"),
+               title: Text("Home"),
               background:
                 Material(
                     child: InkWell(
@@ -62,10 +62,13 @@ class DashBoard extends StatelessWidget {
                       child: Container(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20.0),
-                          child: Image(image: AssetImage('img/OF.png' ),fit: BoxFit.cover,)
-                          //Image.network("http://www.pngmart.com/files/10/Audi-PNG-Clipart.png",fit: BoxFit.cover,),
-                        )
-                        ,),
+                          child: FadeInImage.assetNetwork(
+                          placeholder: 'img/OF.png',
+                          image: 'https://firebasestorage.googleapis.com/v0/b/royal-79123.appspot.com/o/OFFER-arabic-(1).png?alt=media&token=22969023-f7b6-4f1f-ae25-7ded754d1f8f',
+                        fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
                     )
                 )
 
@@ -181,8 +184,7 @@ class DashBoard extends StatelessWidget {
           ),
           child: InkWell(
             onTap: () {
-              Scaffold.of(context).showSnackBar(
-                  SnackBar(content: Text("We work for you")));
+
               if (position == 3) {
                 Navigator.push(
                   context,

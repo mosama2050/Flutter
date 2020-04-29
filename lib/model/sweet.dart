@@ -5,43 +5,43 @@ class sweetList {
     return [
       Movie(
           title: 'جيلاتي',
-          genre: 'مرر لليسار ان اعجبك',
-          year: '20\$',
+          genre: 'اسحب لليسار ',
+          year: '20',
           imageUrl:
           'img/sweet.jpg'), Movie(
           title: 'جيلاتي',
-          genre: 'مرر لليسار ان اعجبك',
-          year: '20\$',
+          genre: 'اسحب لليسار ',
+          year: '20',
           imageUrl:
           'img/sweet.jpg'), Movie(
           title: 'جيلاتي',
-          genre: 'مرر لليسار ان اعجبك',
-          year: '20\$',
+          genre: 'اسحب لليسار ',
+          year: '20',
           imageUrl:
           'img/sweet.jpg'), Movie(
           title: 'جيلاتي',
-          genre: 'مرر لليسار ان اعجبك',
-          year: '20\$',
+          genre: 'اسحب لليسار ',
+          year: '20',
           imageUrl:
           'img/sweet.jpg'), Movie(
           title: 'جيلاتي',
-          genre: 'مرر لليسار ان اعجبك',
-          year: '20\$',
+          genre: 'اسحب لليسار ',
+          year: '20',
           imageUrl:
           'img/sweet.jpg'), Movie(
           title: 'جيلاتي',
-          genre: 'مرر لليسار ان اعجبك',
-          year: '20\$',
+          genre: 'اسحب لليسار ',
+          year: '20',
           imageUrl:
           'img/sweet.jpg'), Movie(
           title: 'جيلاتي',
-          genre: 'مرر لليسار ان اعجبك',
-          year: '20\$',
+          genre: 'اسحب لليسار ',
+          year: '20',
           imageUrl:
           'img/sweet.jpg'), Movie(
           title: 'جيلاتي',
-          genre: 'مرر لليسار ان اعجبك',
-          year: '20\$',
+          genre: 'اسحب لليسار ',
+          year: '20',
           imageUrl:
           'img/sweet.jpg'),
     ];
