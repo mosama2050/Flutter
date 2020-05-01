@@ -6,12 +6,12 @@ import 'package:royal/screens/BeautyTextfield.dart';
 import 'package:royal/screens/home.dart';
 import 'package:royal/services/auth.dart';
 
-class signup extends StatefulWidget {
+class forget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => loginsate();
 }
 
-class loginsate extends State<signup> {
+class loginsate extends State<forget> {
   final AuthServices _auth = AuthServices();
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   static final formKey = new GlobalKey<FormState>();
@@ -21,6 +21,7 @@ class loginsate extends State<signup> {
   String name = "";
   @override
   Widget build(BuildContext context) {
+    bool enable = false;
     final emailField = TextFormField(
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
@@ -60,6 +61,7 @@ class loginsate extends State<signup> {
         });
       },
       obscureText: true,
+      enabled: enable,
       style: style,
       decoration: InputDecoration(
           icon: Icon(Icons.lock,color: Colors.white,size: 40,),
@@ -72,44 +74,19 @@ class loginsate extends State<signup> {
           border:
           OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
-    final Namefield = TextFormField(
-      
+
+    final phonField = TextFormField(
+      keyboardType: TextInputType.phone,
       validator: (value) {
-        if (value.length<10) {
-          return "Name less than 10 char";
+        var potentialNumber = int.tryParse(value);
+        if (potentialNumber == null) {
+          return 'Enter a phone number';
         }
       },
       onChanged: (text) {
         setState(() {
-          name = text;
-
-        });
-      },
-      obscureText: false,
-      style: style,
-      decoration: InputDecoration(
-        icon: Icon(Icons.person,color: Colors.white,size: 40,),
-          errorStyle: TextStyle(backgroundColor: Colors.white,
-              color: Colors.red, fontSize: 15, fontWeight: FontWeight.bold),
-          filled: true,
-          fillColor: Colors.white,
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Name",
-          border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
-    );
-    final phonField = TextFormField(
-        keyboardType: TextInputType.phone,
-        validator: (value) {
-          var potentialNumber = int.tryParse(value);
-          if (potentialNumber == null) {
-            return 'Enter a phone number';
-          }
-        },
-      onChanged: (text) {
-        setState(() {
-          phone = text;
-
+          password = text;
+          password.trim();
         });
       },
 
@@ -125,10 +102,11 @@ class loginsate extends State<signup> {
           border:
           OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
+
     final loginButon = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: Color(0xff01A0C7),
+      color: Colors.green,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -138,7 +116,7 @@ class loginsate extends State<signup> {
             MaterialPageRoute(builder: (context) => DashBoard()),
           );
         },
-        child: Text("Login",
+        child: Text("Save & Login",
             textAlign: TextAlign.center,
             style: style.copyWith(
                 color: Colors.white, fontWeight: FontWeight.bold)),
@@ -148,30 +126,17 @@ class loginsate extends State<signup> {
     final SaveButon = Material(
       elevation: 100.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: Colors.green,
+      color: Colors.blue,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () async {
-          if (formKey.currentState.validate()) {
-            print(name + email + password + phone);
-            dynamic result =
-                await _auth.signupwithemail(email, password, name, phone);
-            if (result == null) {
-              setState(() {
-                _buildErrorDialog(context, "error please try agian");
-              });
-            }
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => DashBoard()),
-            );
+        onPressed: () {
+          setState(() {
+            enable=true;
+          });
 
-          } else {
-            _buildErrorDialog(context, "not vaild");
-          }
         },
-        child: Text("Save",
+        child: Text("check data",
             textAlign: TextAlign.center,
             style: style.copyWith(
                 color: Colors.white, fontWeight: FontWeight.bold)),
@@ -194,24 +159,24 @@ class loginsate extends State<signup> {
                   children: <Widget>[
                     SizedBox(
                         child: Text(
-                      "Sign Up ",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
-                    )),
-                    SizedBox(height: 25.0),
-                    Namefield,
-                    SizedBox(height: 25.0),
+                          "Forget password ",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold),
+                        )),
+
+
+                    SizedBox(height: 50.0),
                     emailField,
                     SizedBox(height: 25.0),
-                    passwordField,
-                    SizedBox(height: 25.0),
                     phonField,
+                    SizedBox(height: 50.0),
+                   SaveButon,
                     SizedBox(
-                      height: 30.0,
+                      height: 50.0,
                     ),
-                    SaveButon,
+                    passwordField,
                     SizedBox(height: 25.0),
                     loginButon,
                     SizedBox(

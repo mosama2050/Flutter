@@ -45,7 +45,7 @@ class NestedPagestat extends State<NestedPage> {
 //                      ,duration: Duration (seconds:20),
 //
 //                    ));
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => order()),
                 );

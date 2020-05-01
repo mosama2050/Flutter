@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:royal/model/info.dart';
+import 'package:royal/services/dbservices.dart';
 
 
 class AuthServices{
+  String id ;
   final FirebaseAuth _Auth = FirebaseAuth.instance;
 
   User _userfromFirbase(FirebaseUser user ){
@@ -31,7 +33,28 @@ class AuthServices{
     try {
       AuthResult result = await _Auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user=result.user;
+      id =user.uid;
+      // create colletion users
+     await databaseServices(uid: user.uid).updateUserData(name, email, password, phone);
+    print(name + email + password + phone );
       return _userfromFirbase(user);
+
+    }  catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+
+  Future Rate(String comment , double rapp , double rclup , double rserv )async{
+    try {
+
+      final FirebaseUser user = await _Auth.currentUser();
+
+      // create colletion users
+      await databaseServices(uid: user.uid).updateRate(comment, rapp, rclup, rserv);
+
+
 
     }  catch (e) {
       print(e.toString());
@@ -45,6 +68,7 @@ class AuthServices{
     try {
       AuthResult result = await _Auth.signInWithEmailAndPassword(email: email, password: password);
       FirebaseUser user=result.user;
+
       return _userfromFirbase(user);
 
     }  catch (e) {

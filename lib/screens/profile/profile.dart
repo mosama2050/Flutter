@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-
-
+import 'package:provider/provider.dart';
+import 'package:royal/model/user.dart';
+import 'package:royal/services/auth.dart';
+import 'package:royal/services/dbservices.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -11,8 +14,10 @@ class ProfilePage extends StatefulWidget {
 
 class MapScreenState extends State<ProfilePage>
     with SingleTickerProviderStateMixin {
-  bool _status = true  ;
+  bool _status = true;
   final FocusNode myFocusNode = FocusNode();
+
+  final AuthServices _auth = AuthServices();
 
   @override
   void initState() {
@@ -22,11 +27,13 @@ class MapScreenState extends State<ProfilePage>
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        body: new Container(
+    //final brews = Provider.of<List<usermodel>>(context);
+    return   StreamProvider<List<usermodel>>.value(
+      value: databaseServices().users,
+      child: new Scaffold(
+            body: new Container(
           color: Colors.white,
           child: new ListView(
-
             children: <Widget>[
               Column(
                 children: <Widget>[
@@ -42,13 +49,13 @@ class MapScreenState extends State<ProfilePage>
                               children: <Widget>[
                                 new IconButton(
                                   icon: Icon(Icons.arrow_back),
-                                  onPressed: (){
+                                  onPressed: () {
                                     Navigator.pop(context);
                                   },
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(left:90.0),
-                                  child: new Text('PROFILE',
+                                  padding: EdgeInsets.only(left: 90.0),
+                                  child: new Text('PROFILE ${Provider.of<List<usermodel>>(context)[0].name}',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20.0,
@@ -59,7 +66,8 @@ class MapScreenState extends State<ProfilePage>
                             )),
                         Padding(
                           padding: EdgeInsets.only(top: 20.0),
-                          child: new Stack(fit: StackFit.loose, children: <Widget>[
+                          child:
+                              new Stack(fit: StackFit.loose, children: <Widget>[
                             new Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -70,8 +78,7 @@ class MapScreenState extends State<ProfilePage>
                                     decoration: new BoxDecoration(
                                       shape: BoxShape.circle,
                                       image: new DecorationImage(
-                                        image: new ExactAssetImage(
-                                            'img/as.png'),
+                                        image: new ExactAssetImage('img/as.png'),
                                         fit: BoxFit.cover,
                                       ),
                                     )),
@@ -82,7 +89,7 @@ class MapScreenState extends State<ProfilePage>
                                 child: new Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                   // _getCamIcon()
+                                    // _getCamIcon()
 //                                new CircleAvatar(
 //                                  backgroundColor: Colors.red,
 //                                  radius: 25.0,
@@ -165,11 +172,10 @@ class MapScreenState extends State<ProfilePage>
                                   new Flexible(
                                     child: new TextField(
                                       decoration: const InputDecoration(
-                                        hintText: "Enter Your Name",
+                                        hintText: "name",
                                       ),
                                       enabled: !_status,
                                       autofocus: !_status,
-
                                     ),
                                   ),
                                 ],
@@ -204,7 +210,7 @@ class MapScreenState extends State<ProfilePage>
                                     child: new TextField(
                                       decoration: const InputDecoration(
                                           hintText: "smsm@fci.menofia"),
-                                      enabled:  false,
+                                      enabled: false,
                                     ),
                                   ),
                                 ],
@@ -238,7 +244,7 @@ class MapScreenState extends State<ProfilePage>
                                   new Flexible(
                                     child: new TextField(
                                       decoration: const InputDecoration(
-                                          hintText: "Enter Mobile Number" ),
+                                          hintText: "Enter Mobile Number"),
                                       enabled: !_status,
                                     ),
                                   ),
@@ -312,7 +318,9 @@ class MapScreenState extends State<ProfilePage>
               ),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   @override
@@ -334,18 +342,18 @@ class MapScreenState extends State<ProfilePage>
               padding: EdgeInsets.only(right: 10.0),
               child: Container(
                   child: new RaisedButton(
-                    child: new Text("Save"),
-                    textColor: Colors.white,
-                    color: Colors.green,
-                    onPressed: () {
-                      setState(() {
-                        _status = true;
-                        FocusScope.of(context).requestFocus(new FocusNode());
-                      });
-                    },
-                    shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(20.0)),
-                  )),
+                child: new Text("Save"),
+                textColor: Colors.white,
+                color: Colors.green,
+                onPressed: () {
+                  setState(() {
+                    _status = true;
+                    FocusScope.of(context).requestFocus(new FocusNode());
+                  });
+                },
+                shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(20.0)),
+              )),
             ),
             flex: 2,
           ),
@@ -354,18 +362,18 @@ class MapScreenState extends State<ProfilePage>
               padding: EdgeInsets.only(left: 10.0),
               child: Container(
                   child: new RaisedButton(
-                    child: new Text("Cancel"),
-                    textColor: Colors.white,
-                    color: Colors.red,
-                    onPressed: () {
-                      setState(() {
-                        _status = true;
-                        FocusScope.of(context).requestFocus(new FocusNode());
-                      });
-                    },
-                    shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(20.0)),
-                  )),
+                child: new Text("Cancel"),
+                textColor: Colors.white,
+                color: Colors.red,
+                onPressed: () {
+                  setState(() {
+                    _status = true;
+                    FocusScope.of(context).requestFocus(new FocusNode());
+                  });
+                },
+                shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(20.0)),
+              )),
             ),
             flex: 2,
           ),
@@ -393,7 +401,7 @@ class MapScreenState extends State<ProfilePage>
     );
   }
 
- // Widget _getCamIcon()  {
+  // Widget _getCamIcon()  {
 //    return new GestureDetector(
 //      child: new CircleAvatar(
 //        backgroundColor: Colors.red,
@@ -423,9 +431,6 @@ class MapScreenState extends State<ProfilePage>
 //      },
 //    );
 //  }}
-
-
-
 
 //
 //enum ConfirmAction { CANCEL, ACCEPT ,UACCEPT}

@@ -113,10 +113,17 @@ int len = 10;
                               ],
                             ),
                           ),
-                          Image.network(
-                            c.imgsrc,
-                            fit: BoxFit.fill,
-                            height: 250,
+                       //   Image.network(
+                            FadeInImage.assetNetwork(
+                              placeholder: 'img/eve.png',
+                              image: c.imgsrc   ,
+                              fit: BoxFit.fill,
+
+
+//                            c.imgsrc,
+//                            fit: BoxFit.fill,
+//
+//                            height: 250,
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 10 , bottom: 20 ,right: 10),

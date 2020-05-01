@@ -48,9 +48,10 @@ class DashBoard extends StatelessWidget {
             backgroundColor: Colors.black45,
             floating: true,
             pinned: true,
-
+             
             flexibleSpace: FlexibleSpaceBar(
                title: Text("Home"),
+
               background:
                 Material(
                     child: InkWell(
@@ -75,6 +76,7 @@ class DashBoard extends StatelessWidget {
 
             ),
           ),SliverFillRemaining(
+           hasScrollBody: true,
             child:Center(
               child: Stack(
                 children: [
@@ -216,12 +218,7 @@ class DashBoard extends StatelessWidget {
                   context,
                   MaterialPageRoute(builder: (context) => location ()),
                 );
-              }
-              else if(position == 5){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HeroPage ()),
-                );
+
               }
               else if(position == 4){
 

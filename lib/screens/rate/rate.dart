@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:royal/screens/home.dart';
+import 'package:royal/services/auth.dart';
+import 'package:royal/services/dbservices.dart';
 
 class MyApp extends StatefulWidget {
   @override
@@ -22,6 +24,11 @@ class _MyAppState extends State<MyApp> {
 //    }
 //  }
 
+  double Rclup=3 ;
+  double Rapp=3;
+  double Rservc=3;
+  String comment="";
+  final AuthServices _auth = AuthServices();
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -30,7 +37,12 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           backgroundColor: Colors.black45,
           title: Text("Rate Us"),
-          leading:IconButton(icon:Icon(Icons.arrow_back) , onPressed: (){Navigator.pop(context);},) ,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
         body: new SingleChildScrollView(
           child: new ListBody(
@@ -43,7 +55,6 @@ class _MyAppState extends State<MyApp> {
                   Icons.rate_review,
                 ),
                 title: new Text('Rate The Clup'),
-
               ),
               RatingBar(
                 initialRating: 3,
@@ -58,6 +69,7 @@ class _MyAppState extends State<MyApp> {
                 ),
                 onRatingUpdate: (rating) {
                   print(rating);
+                  Rclup=rating;
                 },
               ),
               new Divider(
@@ -68,7 +80,6 @@ class _MyAppState extends State<MyApp> {
                   Icons.rate_review,
                 ),
                 title: new Text('Rate Service'),
-
               ),
               RatingBar(
                 initialRating: 3,
@@ -83,6 +94,7 @@ class _MyAppState extends State<MyApp> {
                 ),
                 onRatingUpdate: (rating) {
                   print(rating);
+                  Rservc=rating;
                 },
               ),
               new Divider(
@@ -93,7 +105,6 @@ class _MyAppState extends State<MyApp> {
                   Icons.rate_review,
                 ),
                 title: new Text('Rate The App'),
-
               ),
               RatingBar(
                 initialRating: 3,
@@ -108,21 +119,28 @@ class _MyAppState extends State<MyApp> {
                 ),
                 onRatingUpdate: (rating) {
                   print(rating);
+                  Rapp=rating;
                 },
               ),
               new Divider(
                 height: 20.0,
               ),
-              Padding(padding: EdgeInsets.all(20),),
-              TextField(
-
+              Padding(
+                padding: EdgeInsets.all(20),
+              ),
+              TextField(onChanged: (t){
+                comment=t;
+              },
                 style: style,
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                     hintText: "Let Your comment ",
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(32.0))),
-              ),Padding(padding: EdgeInsets.all(20),),
+              ),
+              Padding(
+                padding: EdgeInsets.all(20),
+              ),
               Material(
                 elevation: 5.0,
                 borderRadius: BorderRadius.circular(30.0),
@@ -130,11 +148,17 @@ class _MyAppState extends State<MyApp> {
                 child: MaterialButton(
                   minWidth: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => DashBoard()),
-                    );
+                  onPressed: () async {
+
+                      dynamic result =
+                      await _auth.Rate(comment, Rapp, Rclup, Rservc);
+
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => DashBoard()),
+                      );
+
+
                   },
                   child: Text("DONE",
                       textAlign: TextAlign.center,

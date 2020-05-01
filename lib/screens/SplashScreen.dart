@@ -1,14 +1,8 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:royal/Constant/Constant.dart';
  //import 'package:royal/screens/AuthService.dart';
-import 'package:provider/provider.dart';
-import 'package:royal/model/info.dart';
-import 'package:royal/screens/home.dart';
-import 'package:royal/screens/login.dart';
 import 'package:royal/wrapper.dart';
 
 class SplashScreen extends StatefulWidget {

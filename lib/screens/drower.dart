@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:royal/screens/aboutus/pageview.dart';
 import 'package:royal/screens/home.dart';
 import 'package:royal/screens/location/location.dart';
+import 'package:royal/screens/login2.dart';
 import 'package:royal/screens/profile/profile.dart';
 import 'package:royal/screens/table/table.dart';
 import 'package:royal/services/auth.dart';
@@ -132,7 +133,10 @@ class drower extends StatelessWidget {
             title: Text('Log out'),
             onTap: () async{
                await _authServices.logut();
-            },
+               Navigator.pushReplacement(
+                 context,
+                 MaterialPageRoute(builder: (context) => login2()),
+               );},
             trailing: Icon(Icons.exit_to_app),
           ),
         ],

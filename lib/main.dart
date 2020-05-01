@@ -5,6 +5,7 @@ import 'package:royal/model/info.dart';
 import 'package:royal/screens/SplashScreen.dart';
 import 'package:royal/screens/login.dart';
 import 'package:royal/Constant/Constant.dart';
+import 'package:royal/screens/login2.dart';
 import 'package:royal/services/auth.dart';
  
 main() =>runApp(Mypp());
@@ -26,7 +27,7 @@ class Mypp extends StatelessWidget{
         routes: <String, WidgetBuilder>{
           //SPLASH_SCREEN: (BuildContext context) => new MapScreen(),
           // PROFILE: (BuildContext context) => new ProfilePage(),
-          LOGIN_SCREEN: (BuildContext context) => new login(),
+          LOGIN_SCREEN: (BuildContext context) => new login2(),
 
           //CARD : (BuildContext context) => new card(),
         },
