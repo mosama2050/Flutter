@@ -11,6 +11,7 @@ import 'package:royal/screens/drower.dart';
 import 'package:royal/screens/events/event.dart';
 import 'package:royal/screens/events/newspage.dart';
 import 'package:royal/screens/location/location.dart';
+import 'package:royal/screens/offer/offer.dart';
 import 'package:royal/screens/rate/rate.dart';
 import 'package:royal/screens/table/table.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -20,6 +21,8 @@ class DashBoard extends StatelessWidget {
   //final FirebaseUser currentUser;
 
   //DashBoard(this.currentUser);
+  final List<String> images = ['https://firebasestorage.googleapis.com/v0/b/royal-79123.appspot.com/o/OFFER-arabic-(1).png?alt=media&token=22969023-f7b6-4f1f-ae25-7ded754d1f8f','https://firebasestorage.googleapis.com/v0/b/royal-79123.appspot.com/o/OFFER-arabic-(1).png?alt=media&token=22969023-f7b6-4f1f-ae25-7ded754d1f8f','https://firebasestorage.googleapis.com/v0/b/royal-79123.appspot.com/o/OFFER-arabic-(1).png?alt=media&token=22969023-f7b6-4f1f-ae25-7ded754d1f8f'];
+
 
 
   Size size;
@@ -57,19 +60,38 @@ class DashBoard extends StatelessWidget {
                     child: InkWell(
                       onTap: () {Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => newspage ()),
+                        MaterialPageRoute(builder: (context) => offer ()),
                       );
                       },
-                      child: Container(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20.0),
-                          child: FadeInImage.assetNetwork(
+                      child:  PageView(
+
+                        children: images.map((image)=>Container(
+                          child: ClipRect(
+                            child: FadeInImage.assetNetwork(
                           placeholder: 'img/OF.png',
-                          image: 'https://firebasestorage.googleapis.com/v0/b/royal-79123.appspot.com/o/OFFER-arabic-(1).png?alt=media&token=22969023-f7b6-4f1f-ae25-7ded754d1f8f',
-                        fit: BoxFit.cover,
+                          image: image,
+                              fit: BoxFit.cover,
                           ),
-                        ),
+                          ),
+
+                        )).toList(),
                       ),
+
+
+
+
+
+//
+//                      child: Container(
+//                        child: ClipRRect(
+//                          borderRadius: BorderRadius.circular(20.0),
+//                          child: FadeInImage.assetNetwork(
+//                          placeholder: 'img/OF.png',
+//                          image: 'https://firebasestorage.googleapis.com/v0/b/royal-79123.appspot.com/o/OFFER-arabic-(1).png?alt=media&token=22969023-f7b6-4f1f-ae25-7ded754d1f8f',
+//                        fit: BoxFit.cover,
+//                          ),
+//                        ),
+//                      ),
                     )
                 )
 

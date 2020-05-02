@@ -20,6 +20,9 @@ class databaseServices{
       'phone' : phone
     });
   }
+
+
+
   Future updateRate(String comment , double rapp , double rclup , double rserv )
   async{
     return await Ratecollection.document(uid).setData({
@@ -33,6 +36,7 @@ class databaseServices{
 //users list from snapshot
   List<usermodel> userlistformsnapshot(
       QuerySnapshot snapshot){
+
   return snapshot.documents.map((doc){
     return usermodel(
       name: doc.data['name']??"",
@@ -48,6 +52,8 @@ Stream<List<usermodel>> get users {
   return userCollection.snapshots()
   .map(userlistformsnapshot);
 }
+
+
 
 
 }

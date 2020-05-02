@@ -17,38 +17,19 @@ class DashBoard2 extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: CustomScrollView(
-          slivers: <Widget>[
-            SliverAppBar(
-              automaticallyImplyLeading: true,
-              expandedHeight: 200,
-              backgroundColor: Colors.black45,
-              floating: false,
-              pinned: true,
-
-              flexibleSpace: FlexibleSpaceBar(
-
-                  background: Material(
-                      child: Container(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20.0),
-                          child: Image(
-                            image: AssetImage('img/sp.png'),
-                            fit: BoxFit.cover,
-                          )
-                        ),
-                      ))),
-            ),
-            SliverFillRemaining(
-              hasScrollBody: true,
-              child: Center(
+        body:  Center(
                 child: Stack(
                   children: [
-                    Container(
+                    Container(decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("img/sp.png"),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                       alignment: Alignment.center,
                       margin: EdgeInsets.only(top: 30),
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        padding: const EdgeInsets.only(left: 20, right: 20,top: 100),
                         child: GridView.count(
                           crossAxisCount: 2,
                           children: [
@@ -64,10 +45,8 @@ class DashBoard2 extends StatelessWidget {
                 ),
               ),
             )
-          ],
-        ),
-      ),
     );
+
   }
 
   Widget createGridItem(int position) {
@@ -80,7 +59,7 @@ class DashBoard2 extends StatelessWidget {
       case 0:
         color = Colors.cyan;
         img = AssetImage("img/meneee.png");
-        text = "Cafe";
+        text = "Cafe App";
         break;
       case 1:
         color = Colors.pinkAccent;
@@ -114,7 +93,7 @@ class DashBoard2 extends StatelessWidget {
           child: InkWell(
             onTap: () {
               if (position == 0) {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => DashBoard()),
                 );

@@ -41,6 +41,7 @@ dependencies:
   cloud_firestore: ^0.12.9+4
   flutter_spinkit : "^4.0.0"
   intro_views_flutter: ^2.6.0
+  palette_generator: ^0.2.0
 
 
 flutter_icons:

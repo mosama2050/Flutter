@@ -1,18 +1,23 @@
 //import 'package:pro1/UI/Utility/Resources.dart';
 //import 'package:pro1/UI/Utility/constants.dart';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
+import 'package:royal/model/ads.dart';
 import 'package:royal/screens/home.dart';
 import 'package:royal/screens/home2.dart';
+import 'package:royal/screens/out4page/Gym.dart';
 
 
 class WelcomeScreen extends StatelessWidget {
+
   List<PageViewModel> page(BuildContext context) {
     return [
       PageViewModel(
         iconColor: Colors.green,
-        pageColor: Colors.yellow,
+        pageColor: Color.fromRGBO(79, 110, 52,11),
         // bubbleBackgroundColor: Colors.white,
         title: Container(),
         body: Column(
@@ -34,15 +39,15 @@ class WelcomeScreen extends StatelessWidget {
           'img/ro.jpg',
            fit: BoxFit.cover,
 
-          width: MediaQuery.of(context).size.width - 60,
-          height:MediaQuery.of(context).size.height - 20 ,
+         // width: MediaQuery.of(context).size.width - 60,
+        //  height:MediaQuery.of(context).size.height - 20 ,
           alignment: Alignment.center,
         ),
         textStyle: TextStyle(color: Colors.white),
       ),
       PageViewModel(
         iconColor: Colors.black,
-        pageColor: Colors.yellow,
+        pageColor: Color.fromRGBO(79, 110, 52,11),
         // bubbleBackgroundColor: Colors.white,
         title: Container(),
         body: Column(
@@ -61,17 +66,17 @@ class WelcomeScreen extends StatelessWidget {
           ],
         ),
         mainImage: Image.asset(
-         'img/ro.jpg',
+         'img/sp.png',
            fit: BoxFit.cover,
-          width: MediaQuery.of(context).size.width - 60,
-          height:MediaQuery.of(context).size.height - 20 ,
+//          width: MediaQuery.of(context).size.width - 60,
+//          height:MediaQuery.of(context).size.height - 20 ,
           alignment: Alignment.center,
         ),
         textStyle: TextStyle(color: Colors.white),
       ),
       PageViewModel(
         iconColor: Colors.deepOrange,
-        pageColor: Colors.yellow,
+        pageColor: Color.fromRGBO(79, 110, 52,11),
         // bubbleBackgroundColor: Colors.white,
         title: Container(),
         body: Column(
@@ -81,7 +86,7 @@ class WelcomeScreen extends StatelessWidget {
               style: TextStyle(fontSize: 35, fontWeight: FontWeight.w500),
             ),
             Text(
-              "string.parent_welcome_text",
+              "bla bla bla ",
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,
@@ -92,9 +97,9 @@ class WelcomeScreen extends StatelessWidget {
         mainImage: Image.asset(
           'img/ro.jpg',
           fit: BoxFit.cover,
-          width: MediaQuery.of(context).size.width - 60,
+//          width: MediaQuery.of(context).size.width - 60,
           alignment: Alignment.center,
-          height:MediaQuery.of(context).size.height - 20 ,
+//          height:MediaQuery.of(context).size.height - 20 ,
         ),
         textStyle: TextStyle(color: Colors.white),
       ),
@@ -160,14 +165,14 @@ class WelcomeScreen extends StatelessWidget {
                   //   ),
                   // ),
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (BuildContext context) => DashBoard2(),
                       ),
                     );
                   },
-                  color: Colors.blue,
+                  color: Colors.yellow,
                   child: Text(
                     "Start",
                     style: TextStyle(
