@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import 'package:royal/screens/BeautyTextfield.dart';
 import 'package:royal/screens/home.dart';
+import 'package:royal/screens/loading.dart';
+import 'package:royal/screens/login2.dart';
 import 'package:royal/services/auth.dart';
 
 class forget extends StatefulWidget {
@@ -16,12 +18,10 @@ class loginsate extends State<forget> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   static final formKey = new GlobalKey<FormState>();
   String email = "";
-  String password = "";
-  String phone = "";
-  String name = "";
+
   @override
   Widget build(BuildContext context) {
-    bool enable = false;
+
     final emailField = TextFormField(
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
@@ -48,60 +48,9 @@ class loginsate extends State<forget> {
           border:
           OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
-    final passwordField = TextFormField(
-      validator: (value) {
-        if (value.length<6) {
-          return "password less than 6 char";
-        }
-      },
-      onChanged: (text) {
-        setState(() {
-          password = text;
-          password.trim();
-        });
-      },
-      obscureText: true,
-      enabled: enable,
-      style: style,
-      decoration: InputDecoration(
-          icon: Icon(Icons.lock,color: Colors.white,size: 40,),
-          errorStyle: TextStyle(backgroundColor: Colors.white,
-              color: Colors.red, fontSize: 15, fontWeight: FontWeight.bold),
-          filled: true,
-          fillColor: Colors.white,
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Password",
-          border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
-    );
 
-    final phonField = TextFormField(
-      keyboardType: TextInputType.phone,
-      validator: (value) {
-        var potentialNumber = int.tryParse(value);
-        if (potentialNumber == null) {
-          return 'Enter a phone number';
-        }
-      },
-      onChanged: (text) {
-        setState(() {
-          password = text;
-          password.trim();
-        });
-      },
 
-      style: style,
-      decoration: InputDecoration(
-          icon: Icon(Icons.phone,color: Colors.white,size: 40,),
-          errorStyle: TextStyle(backgroundColor: Colors.white,
-              color: Colors.red, fontSize: 15, fontWeight: FontWeight.bold),
-          filled: true,
-          fillColor: Colors.white,
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Phone",
-          border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
-    );
+    bool loading = false;
 
     final loginButon = Material(
       elevation: 5.0,
@@ -113,10 +62,10 @@ class loginsate extends State<forget> {
         onPressed: () {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => DashBoard()),
+            MaterialPageRoute(builder: (context) => login2()),
           );
         },
-        child: Text("Save & Login",
+        child: Text("back to Login",
             textAlign: TextAlign.center,
             style: style.copyWith(
                 color: Colors.white, fontWeight: FontWeight.bold)),
@@ -130,19 +79,34 @@ class loginsate extends State<forget> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          setState(() {
-            enable=true;
-          });
+        onPressed: ()
+          async {
+            print(email );
+            if (formKey.currentState.validate()) {
+              setState(() {
+                loading=true;
+              });
+              print(email);
+              try {
+                await _auth.sendPasswordResetEmail(email);
+                _buildErrorDialog(context, "check Your mail");
+              }
+               catch (e) {
+                print(e);
+                _buildErrorDialog(context, e.message);
+              }
+
+
+              }
 
         },
-        child: Text("check data",
+        child: Text("Reset",
             textAlign: TextAlign.center,
             style: style.copyWith(
                 color: Colors.white, fontWeight: FontWeight.bold)),
       ),
     );
-    return Scaffold(
+    return loading?Loading():Scaffold(
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
@@ -159,7 +123,7 @@ class loginsate extends State<forget> {
                   children: <Widget>[
                     SizedBox(
                         child: Text(
-                          "Forget password ",
+                          "Reset password ",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 30,
@@ -170,13 +134,13 @@ class loginsate extends State<forget> {
                     SizedBox(height: 50.0),
                     emailField,
                     SizedBox(height: 25.0),
-                    phonField,
+
                     SizedBox(height: 50.0),
                    SaveButon,
                     SizedBox(
                       height: 50.0,
                     ),
-                    passwordField,
+
                     SizedBox(height: 25.0),
                     loginButon,
                     SizedBox(

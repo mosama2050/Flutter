@@ -7,12 +7,15 @@ import 'package:royal/screens/signup.dart';
 
 import 'package:royal/services/auth.dart';
 
+import 'loading.dart';
+
 class login2 extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => loginsate();
 }
 
 class loginsate extends State<login2> {
+  bool loading = false;
   final AuthServices _auth = AuthServices();
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   static final formKey = new GlobalKey<FormState>();
@@ -86,10 +89,14 @@ class loginsate extends State<login2> {
         onPressed: () async {
           print(email + password);
           if (formKey.currentState.validate()) {
+            setState(() {
+              loading=true;
+            });
             print(email + password);
             dynamic r = await _auth.signinwithemail(email, password);
             if (r == null) {
               setState(() {
+                loading=false;
                 _buildErrorDialog(context, "  wrong Email or password");
               });
             } else {
@@ -126,7 +133,7 @@ class loginsate extends State<login2> {
                 color: Colors.white, fontWeight: FontWeight.bold)),
       ),
     );
-    return Scaffold(
+    return loading?Loading() :Scaffold(
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
@@ -151,7 +158,7 @@ class loginsate extends State<login2> {
                   )),
                   Text(
                     "We would likle To Jion us ",
-                    style: TextStyle(color: Colors.white, fontSize: 15),
+                    style: TextStyle(color: Colors.yellow, fontSize: 20 , fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

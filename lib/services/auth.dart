@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:royal/model/info.dart';
+import 'package:royal/screens/table/order.dart';
 import 'package:royal/services/dbservices.dart';
 
 
@@ -16,7 +17,12 @@ class AuthServices{
     return _Auth.onAuthStateChanged
     .map(_userfromFirbase);
   }
-//signInAnonymously
+//reset password
+  Future<void> sendPasswordResetEmail(String email) async {
+    return _Auth.sendPasswordResetEmail(email: email);
+  }
+
+  //signInAnonymously
   Future loginUser() async {
     try {
       AuthResult result = await _Auth.signInAnonymously();
@@ -53,6 +59,55 @@ class AuthServices{
 
       // create colletion users
       await databaseServices(uid: user.uid).updateRate(comment, rapp, rclup, rserv);
+
+
+
+    }  catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+  // order
+  Future order(String pri , String taple   )async{
+    try {
+
+      final FirebaseUser user = await _Auth.currentUser();
+
+      // create colletion users
+      await databaseServices(uid: user.uid).updateorder(pri, taple,   user.uid);
+
+
+
+    }  catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }// order
+  Future orderPT(String pri , String taple   )async{
+    try {
+
+      final FirebaseUser user = await _Auth.currentUser();
+
+      // create colletion users
+      await databaseServices(uid: user.uid).updateorderPT(pri, taple,   user.uid);
+
+
+
+    }  catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+//
+  Future profile( )async{
+    try {
+
+       final FirebaseUser user = await _Auth.currentUser();
+
+      // create colletion users
+      await databaseServices(uid: user.uid).getuser();
 
 
 

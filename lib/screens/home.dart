@@ -1,6 +1,10 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:royal/model/OfferModel.dart';
 import 'package:royal/screens/Meune/MatList.dart';
 
 import 'package:royal/screens/ShapesPainter.dart';
@@ -14,6 +18,7 @@ import 'package:royal/screens/location/location.dart';
 import 'package:royal/screens/offer/offer.dart';
 import 'package:royal/screens/rate/rate.dart';
 import 'package:royal/screens/table/table.dart';
+import 'package:royal/services/dbservices.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DashBoard extends StatelessWidget {
@@ -34,8 +39,10 @@ class DashBoard extends StatelessWidget {
       throw 'Could not launch $url';
     }
   }
+  var rng = new Random();
 
 
+final load = databaseServices();
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
@@ -44,41 +51,53 @@ class DashBoard extends StatelessWidget {
 
       home: Scaffold(
         drawer: drower(),
-        body:CustomScrollView(slivers: <Widget>[
-          SliverAppBar(
-            automaticallyImplyLeading: true,
-            expandedHeight: 200,
-            backgroundColor: Colors.black45,
-            floating: true,
-            pinned: true,
-             
-            flexibleSpace: FlexibleSpaceBar(
-               title: Text("Home"),
+        body:StreamBuilder<QuerySnapshot>(
+        stream: load.loadoffer2(),
+    builder: (context, snapshot) {
+//    if (snapshot.hasData) {
+      List<OfferModel> offerlist = [];
+      for (var doc in snapshot.data.documents) {
+        offerlist.add(OfferModel(
+            date: doc.data['date']??"",
+            desc: doc.data['desc']??"",
+            image: doc.data['image']??"",
+            name: doc.data['name']??""));
+      //  print(doc.data['name']);
+      }
+     return CustomScrollView(slivers: <Widget>[
+        SliverAppBar(
+          automaticallyImplyLeading: true,
+          expandedHeight: 200,
+          backgroundColor: Colors.black45,
+          floating: true,
+          pinned: true,
+
+          flexibleSpace: FlexibleSpaceBar(
+              title:  Text("Home"),
 
               background:
-                Material(
-                    child: InkWell(
-                      onTap: () {Navigator.push(
+              Material(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => offer ()),
+                        MaterialPageRoute(builder: (context) => offer()),
                       );
-                      },
-                      child:  PageView(
+                    },
+                    child: PageView(
 
-                        children: images.map((image)=>Container(
-                          child: ClipRect(
-                            child: FadeInImage.assetNetwork(
-                          placeholder: 'img/OF.png',
-                          image: image,
-                              fit: BoxFit.cover,
-                          ),
-                          ),
+                      children: offerlist.map((image) =>
+                          Container(
+                            child: ClipRect(
+                              child: FadeInImage.assetNetwork(
+                                placeholder: 'img/OF.png',
+                                image: offerlist[rng.nextInt(offerlist.length)].image??"",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
 
-                        )).toList(),
-                      ),
-
-
-
+                          )).toList(),
+                    ),
 
 
 //
@@ -92,52 +111,54 @@ class DashBoard extends StatelessWidget {
 //                          ),
 //                        ),
 //                      ),
-                    )
-                )
+                  )
+              )
 
 
-            ),
-          ),SliverFillRemaining(
-           hasScrollBody: true,
-            child:Center(
-              child: Stack(
-                children: [
-                  Container(
-                    child: CustomPaint(
-                      painter: ShapesPainter(),
-                      child: Container(
-                        height: size.height / 2,
-                        // color: Colors.blueAccent,
-                      ),
+          ),
+        ), SliverFillRemaining(
+          hasScrollBody: true,
+          child: Center(
+            child: Stack(
+              children: [
+                Container(
+                  child: CustomPaint(
+                    painter: ShapesPainter(),
+                    child: Container(
+                      height: size.height / 2,
+                      // color: Colors.blueAccent,
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: 30),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: GridView.count(
-                        crossAxisCount: 2,
-                        children: [
-                          createGridItem(0),
-                          createGridItem(1),
-                          createGridItem(2),
-                          createGridItem(3),
-                          createGridItem(4),
-                          createGridItem(5),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 30),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: GridView.count(
+                      crossAxisCount: 2,
+                      children: [
+                        createGridItem(0),
+                        createGridItem(1),
+                        createGridItem(2),
+                        createGridItem(3),
+                        createGridItem(4),
+                        createGridItem(5),
 
-                          createGridItem(6),
-                          createGridItem(7),
+                        createGridItem(6),
+                        createGridItem(7),
 
-                        ],
-                      ),
+                      ],
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
-          )
-        ],
-        ),
+          ),
+        )
+      ],
+      );
+    }
+    ),
 
       ),
     );
@@ -178,17 +199,17 @@ class DashBoard extends StatelessWidget {
         text = "FaceBook";
         break;
       case 5:
-        color = Colors.green[600];
-        img=  AssetImage("img/ro.jpg");
+        color = Colors.brown[200];
+        img=  AssetImage("img/mao.png");
         text = "Location";
         break;
       case 6:
-        color = Colors.orange[300];
-        img=  AssetImage("img/ro.jpg");
+        color = Colors.yellow[700];
+        img=  AssetImage("img/rate.jpg");
         text = "Rate Us";
         break;
       case 7:
-        color =  Colors.cyan;
+        color =  Colors.cyan[600];
         img=  AssetImage("img/menu-1.png");
         text = "Designed by";
         break;
@@ -227,12 +248,12 @@ class DashBoard extends StatelessWidget {
               }else if(position == 1){
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => newspage ()),
+                  MaterialPageRoute(builder: (context) => Event ()),
                 );
               }else if(position == 2){
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => NestedPage ()),
+                  MaterialPageRoute(builder: (context) => NestedPage ('')),
                 );
               }
               else if(position == 5){

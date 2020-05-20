@@ -1,146 +1,156 @@
-//import 'package:flutter/material.dart';
-//import 'package:royal/screens/aboutus/layout.dart';
-//import 'package:flutter/rendering.dart';
-//import 'package:flutter/foundation.dart';
-//
-//class HeroHeader implements SliverPersistentHeaderDelegate {
-//  HeroHeader({
-//    this.layoutGroup,
-//    this.onLayoutToggle,
-//    this.minExtent,
-//    this.maxExtent,
-//  });
-//  final LayoutGroup layoutGroup;
-//  final VoidCallback onLayoutToggle;
-//  double maxExtent;
-//  double minExtent;
-//
-//  @override
-//  Widget build(
-//      BuildContext context, double shrinkOffset, bool overlapsContent) {
-//    return Stack(
-//      fit: StackFit.expand,
-//      children: [
-//        Image.asset(
-//          'img/ro.jpg',
-//          fit: BoxFit.cover,
-//        ),
-//        Container(
-//          decoration: BoxDecoration(
-//            gradient: LinearGradient(
-//              colors: [
-//                Colors.transparent,
-//                Colors.black54,
-//              ],
-//              stops: [0.5, 1.0],
-//              begin: Alignment.topCenter,
-//              end: Alignment.bottomCenter,
-//              tileMode: TileMode.repeated,
-//            ),
-//          ),
-//        ),
-//        Positioned(
-//          left: 4.0,
-//          top: 4.0,
-//          child: SafeArea(
-//            child: IconButton(
-//              icon: Icon(layoutGroup == LayoutGroup.nonScrollable
-//                  ? Icons.filter_1
-//                  : Icons.filter_2),
-//              onPressed: onLayoutToggle,
-//            ),
-//          ),
-//        ),
-//        Positioned(
-//          left: 16.0,
-//          right: 16.0,
-//          bottom: 16.0,
-//          child: Text(
-//            'Hero Image',
-//            style: TextStyle(fontSize: 32.0, color: Colors.white),
-//          ),
-//        ),
-//      ],
-//    );
-//  }
-//
-//  @override
-//  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-//    return true;
-//  }
-//
-//  @override
-//  FloatingHeaderSnapConfiguration get snapConfiguration => null;
-//
-//  @override
-//  // TODO: implement stretchConfiguration
-//  OverScrollHeaderStretchConfiguration get stretchConfiguration => throw UnimplementedError();
-//}
-//
-//class HeroPage extends StatelessWidget implements HasLayoutGroup {
-//  HeroPage({Key key, this.layoutGroup, this.onLayoutToggle}) : super(key: key);
-//  final LayoutGroup layoutGroup;
-//  final VoidCallback onLayoutToggle;
-//
-//  final List<String> assetNames = [
-//    'img/ro.jpg',
-//    'img/ro.jpg', 'img/ro.jpg', 'img/ro.jpg', 'img/ro.jpg', 'img/ro.jpg', 'img/ro.jpg', 'img/ro.jpg',
-//    'img/ro.jpg',
-//
-//
-//  ];
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//      body: _scrollView(context),
-//    );
-//  }
-//
-//  Widget _scrollView(BuildContext context) {
-//    // Use LayoutBuilder to get the hero header size while keeping the image aspect-ratio
-//    return Container(
-//      child: CustomScrollView(
-//        slivers: <Widget>[
-//          SliverPersistentHeader(
-//            pinned: true,
-//            delegate: HeroHeader(
-//              layoutGroup: layoutGroup,
-//              onLayoutToggle: onLayoutToggle,
-//              minExtent: 150.0,
-//              maxExtent: 250.0,
-//            ),
-//          ),
-//          SliverGrid(
-//            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-//              maxCrossAxisExtent: 200.0,
-//              mainAxisSpacing: 0.0,
-//              crossAxisSpacing: 0.0,
-//              childAspectRatio: 0.75,
-//            ),
-//            delegate: SliverChildBuilderDelegate(
-//                  (BuildContext context, int index) {
-//                return Container(
-//                  alignment: Alignment.center,
-//                  padding: _edgeInsetsForIndex(index),
-//                  child: Image.asset(
-//                    assetNames[index % assetNames.length],
-//                  ),
-//                );
-//              },
-//              childCount: assetNames.length * 2,
-//            ),
-//          ),
-//        ],
-//      ),
-//    );
-//  }
-//
-//  EdgeInsets _edgeInsetsForIndex(int index) {
-//    if (index % 2 == 0) {
-//      return EdgeInsets.only(top: 4.0, left: 8.0, right: 4.0, bottom: 4.0);
-//    } else {
-//      return EdgeInsets.only(top: 4.0, left: 4.0, right: 8.0, bottom: 4.0);
-//    }
-//  }
-//}
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:royal/model/OfferModel.dart';
+import 'package:royal/screens/loading.dart';
+import 'package:royal/services/dbservices.dart';
+
+class Event extends StatefulWidget {
+  @override
+  _EventState createState() => _EventState();
+}
+
+class _EventState extends State<Event> {
+
+  final load = databaseServices();
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+        backgroundColor: Colors.blue[200],
+        body: StreamBuilder<QuerySnapshot>(
+            stream: load.loadevent2(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<OfferModel> offerlist =[];
+                for (var doc in snapshot.data.documents) {
+
+                  offerlist.add(OfferModel(
+                      date: doc.data['date'],
+                      desc: doc.data['desc'],
+                      image: doc.data['image'],
+                      name: doc.data['name']));
+                  print(doc.data['name']);
+                }
+                return PageView.builder(
+
+                  itemBuilder: (  context,  index) =>
+                      Column(
+                        children: <Widget>[
+                          new Image.asset("img/eve.png"),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            offerlist[index].name??"",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 40.0),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.center,
+                            children: <Widget>[
+
+                              Text(
+                                offerlist[index].date??"",
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.0),
+                              ),
+                            ],
+                          ),
+                          Expanded(
+                            child: Container(
+                              padding: const EdgeInsets.all(16.0),
+                              margin: const EdgeInsets.all(16.0),
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                  BorderRadius.circular(30.0),
+                                  image: new DecorationImage(
+                                      image: new NetworkImage(
+                                          offerlist[index].image??"img/sp.png"),
+                                      fit: BoxFit.fitWidth)
+//                                      image: DecorationImage(
+//                                          image: AssetImage('img/OF.png'),
+//                                          fit: BoxFit.cover),
+                              ),
+//                                    child: FadeInImage.assetNetwork(
+//                                      placeholder: 'img/OF.png',
+//                                      image: offers[index].image,
+//                                      fit: BoxFit.cover,
+//                                    ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+//                          Container(height: 50,
+//                            child: Text(
+//                              offerlist[index].desc??"",
+//                              textAlign: TextAlign.center,
+//                              style: TextStyle(
+//                                  color: Colors.blue[900],
+//                                  fontSize: 20.0),
+//                            ),
+//                          ),
+                          InkWell(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30.0),
+                                color: Colors.white ,
+                              )
+                              ,
+                              padding: EdgeInsets.all(8),
+                              child: Text(
+                                "Details",
+                                style: TextStyle(fontStyle: FontStyle.italic,
+
+                                    color:  Colors.blue[200],
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            onTap: (){
+                             showDialog(
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                        'Details ',
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                      content: Text(offerlist[index].desc??"vist our Facebook page" , textAlign: TextAlign.right,),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                            child: Text('Cancel'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            })
+                                      ],
+                                    );
+                                  },
+                                  context: context,
+                                );
+
+                            },
+                          ),
+                        ],
+                      )
+
+
+
+                  ,  itemCount: offerlist.length,);
+              } else {
+                return Loading();
+              }
+            }
+        )
+    );
+
+  }
+}

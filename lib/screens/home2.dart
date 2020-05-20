@@ -1,15 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:royal/screens/Meune/MatList.dart';
 
-import 'package:royal/screens/aboutus/pageview.dart';
-import 'package:royal/screens/events/newspage.dart';
 import 'package:royal/screens/home.dart';
 import 'package:royal/screens/out4page/Gym.dart';
 import 'package:royal/screens/out4page/acadimy.dart';
 import 'package:royal/screens/out4page/resturant.dart';
-import 'package:royal/screens/rate/rate.dart';
 
 class DashBoard2 extends StatelessWidget {
   @override
@@ -57,25 +55,25 @@ class DashBoard2 extends StatelessWidget {
     var text = "";
     switch (position) {
       case 0:
-        color = Colors.cyan;
-        img = AssetImage("img/meneee.png");
+        color = Colors.orange[300];
+        img = AssetImage("img/r.jpg");
         text = "Cafe App";
         break;
       case 1:
-        color = Colors.pinkAccent;
+        color = Colors.deepPurple[600];
 
         text = "Gym";
-        img = AssetImage("img/eve.png");
+        img = AssetImage("img/gym.jpeg");
         break;
       case 2:
-        color = Colors.orange[300];
-        img = AssetImage("img/r.jpg");
+        color = Colors.blue[300];
+        img = AssetImage("img/acad.jpeg");
         text = "Academy";
         break;
       case 3:
-        color = Colors.deepPurple;
-        img = AssetImage("img/about.png");
-        text = "Resturant";
+        color = Colors.grey[900];
+        img = AssetImage("img/61208.png" );
+         text = "Exit";
         break;
     }
 
@@ -108,10 +106,7 @@ class DashBoard2 extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => acdmiy()),
                 );
               } else if (position == 3) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => resturant()),
-                );
+                   exit(0);
               }
             },
             child: Center(

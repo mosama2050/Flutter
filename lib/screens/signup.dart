@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import 'package:royal/screens/BeautyTextfield.dart';
 import 'package:royal/screens/home.dart';
+import 'package:royal/screens/loading.dart';
+import 'package:royal/screens/login2.dart';
 import 'package:royal/services/auth.dart';
 
 class signup extends StatefulWidget {
@@ -19,6 +21,8 @@ class loginsate extends State<signup> {
   String password = "";
   String phone = "";
   String name = "";
+
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     final emailField = TextFormField(
@@ -135,10 +139,10 @@ class loginsate extends State<signup> {
         onPressed: () {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => DashBoard()),
+            MaterialPageRoute(builder: (context) => login2()),
           );
         },
-        child: Text("Login",
+        child: Text("Have account",
             textAlign: TextAlign.center,
             style: style.copyWith(
                 color: Colors.white, fontWeight: FontWeight.bold)),
@@ -154,11 +158,16 @@ class loginsate extends State<signup> {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () async {
           if (formKey.currentState.validate()) {
+          setState(() {
+            loading=true;
+          });
             print(name + email + password + phone);
             dynamic result =
                 await _auth.signupwithemail(email, password, name, phone);
             if (result == null) {
+
               setState(() {
+                loading=false;
                 _buildErrorDialog(context, "error please try agian");
               });
             }
@@ -171,13 +180,14 @@ class loginsate extends State<signup> {
             _buildErrorDialog(context, "not vaild");
           }
         },
-        child: Text("Save",
+        child: Text("create",
             textAlign: TextAlign.center,
             style: style.copyWith(
                 color: Colors.white, fontWeight: FontWeight.bold)),
       ),
     );
-    return Scaffold(
+
+    return loading?Loading():Scaffold(
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(

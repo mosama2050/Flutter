@@ -8,8 +8,14 @@ import 'package:royal/model/hot.dart';
 import 'package:royal/model/material.dart';
 import 'package:royal/model/sweet.dart';
 import 'package:royal/screens/Meune/materialCard.dart';
+import 'package:royal/screens/home.dart';
+import 'package:royal/screens/table/table.dart';
+import 'package:royal/services/auth.dart';
 
 class order extends StatefulWidget {
+  final String taple;//if you have multiple values add here
+  order(this.taple, {Key key}): super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _MoviesPageState();
@@ -17,9 +23,12 @@ class order extends StatefulWidget {
 }
 
 class _MoviesPageState extends State<order> {
+
+  final AuthServices _auth = AuthServices();
+
   int counter = 0;
   int price = 0;
-  double discount = 0;
+  int point =  0;
   final List<Movie> movies = hotList.gethot();
   final List<Movie> moviess = coldList.getcold();
   final List<Movie> moviesss = sweetList.getsweet();
@@ -36,7 +45,7 @@ class _MoviesPageState extends State<order> {
                       moviessssss.add(movies[index]);
                       counter++;
                       price+=int.parse(movies[index].year);
-                      discount+=(int.parse(movies[index].year)+(int.parse(movies[index].year)*.14)).floor();
+                      point =((price)*.10).floor();
 
                     });
                   },
@@ -76,7 +85,7 @@ class _MoviesPageState extends State<order> {
                       moviessssss.add(moviess[index]);
                       counter++;
                       price+=int.parse(moviess[index].year);
-                      discount+=(int.parse(moviess[index].year)+(int.parse(moviess[index].year)*.14)).floor();
+                      point = ((price)*.10).floor();
 
                     });
                   },
@@ -116,7 +125,7 @@ class _MoviesPageState extends State<order> {
                       moviessssss.add(moviesss[index]);
                       counter++;
                       price+=int.parse(moviesss[index].year);
-                      discount+=(int.parse(moviesss[index].year)+(int.parse(moviesss[index].year)*.14)).floor();
+                      point =((price)*.10).floor();
 
                     });
                   },
@@ -156,7 +165,7 @@ class _MoviesPageState extends State<order> {
 
 
                   price-=int.parse(moviessssss[index].year);
-                  discount-=(int.parse(moviessssss[index].year)+(int.parse(moviessssss[index].year)*.14)).floor();
+                  point = (price*.10).floor();
 
                 moviessssss.removeAt(index);
                 counter--;
@@ -185,6 +194,8 @@ class _MoviesPageState extends State<order> {
 
   @override
   Widget build(BuildContext context) {
+
+    print(widget.taple);
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "m",
@@ -251,7 +262,7 @@ class _MoviesPageState extends State<order> {
                                 ]),
                                 TableRow(children: [
                                   Text(
-                                    "Price&Tax",
+                                    "point",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize: 18.0,
@@ -260,7 +271,7 @@ class _MoviesPageState extends State<order> {
                                     ),
                                   ),
                                   Text(
-                                    "$discount  LE",
+                                    "$point  ",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.green,
@@ -279,6 +290,13 @@ class _MoviesPageState extends State<order> {
                             ,padding: EdgeInsets.all(10),
                           color: Colors.blue,
                             onPressed: (){
+                            _auth.order(price.toString(), widget.taple  );
+                          setState(() {
+                            price=0;
+                            point=0;
+                            counter=0;
+                            moviessssss.clear();
+                          });
                               _buildErrorDialog(context, "جاري تنفيذ طلبك");
                             },
                         ))
@@ -342,7 +360,15 @@ class _MoviesPageState extends State<order> {
             FlatButton(
                 child: Icon(Icons.clear),
                 onPressed: () {
+
                   Navigator.of(context).pop();
+//                  Navigator.pushReplacement(
+//                    context,
+//                    MaterialPageRoute(
+//                        builder: (context) => DashBoard(
+//
+//                        )),
+//                  );
                 })
           ],
         );
