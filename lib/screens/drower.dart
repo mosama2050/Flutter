@@ -8,6 +8,7 @@ import 'package:royal/model/info.dart';
 import 'package:royal/screens/aboutus/pageview.dart';
 
 import 'package:royal/screens/home.dart';
+import 'package:royal/screens/home2.dart';
 import 'package:royal/screens/location/location.dart';
 import 'package:royal/screens/login2.dart';
 import 'package:royal/screens/offer/offer.dart';
@@ -149,6 +150,21 @@ class drower extends StatelessWidget {
                 }
               },
               trailing: Icon(Icons.location_on),
+            ),
+            Divider(
+              color: Colors.black,
+              height: 4,
+            ),   ListTile(
+              title: Text('Gym&Academy'),
+              onTap: () {
+                {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DashBoard2()),
+                  );
+                }
+              },
+              trailing: Icon(Icons.accessibility),
             ),
             Divider(
               color: Colors.black,
